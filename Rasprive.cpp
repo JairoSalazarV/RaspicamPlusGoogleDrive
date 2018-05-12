@@ -32,6 +32,7 @@ void uploadFile( const string& fileName, const structSettings& settings, bool de
 void uploadDirectory( const structSettings& settings );
 void takeSnapshot( const structSettings& settings );
 string getTimeStampFilename( const structSettings& settings );
+string getNextTime( const structSettings& settings );
 
 
 int main()
@@ -53,6 +54,7 @@ int main()
 	//Prepare Variables
 	//--------------------------------------
 	int seconds = (int)stringToDouble( settings.seconds );
+	string nextTime;
 	
 	while(true)
 	{
@@ -63,18 +65,53 @@ int main()
 		uploadDirectory( settings );
 		
 		//Wait to the next time
+		nextTime.clear();
+		nextTime = getNextTime( settings );
+		cout << "Next snapshot at " << nextTime << endl;
 		sleep( seconds );
 	}	
 }
 
 void takeSnapshot( const structSettings& settings )
 {
-	string outputFile = getTimeStampFilename( settings );
-	
-	cout << "outputFile: " << outputFile << endl;
-	//string snapshotCommand;
-	//snapshotCommand.clear();
-	
+	//raspistill -o ./tmpSnapshots/tmpImg.RGB888 -n -q 100 -gc -ifx colourbalance -ifx denoise -t 3000 -w 3240 -h 2464 -awb auto -ex auto
+	string commandResult;
+	string outputFile = getTimeStampFilename( settings );		
+	string snapshotCommand;
+	snapshotCommand.clear();
+	snapshotCommand.append("raspistill -o ");
+	snapshotCommand.append(outputFile);
+	snapshotCommand.append(" -n -q 100 -gc -ifx colourbalance -ifx denoise -t 3000 -w 3240 -h 2464 -awb auto -ex auto");	
+	executeConsoleCommand( snapshotCommand, &commandResult );
+	//cout << "snapshotCommand: " << snapshotCommand << endl;
+}
+
+string getNextTime( const structSettings& settings )
+{
+	//Timestamp
+	time_t now = time(0) + (int)stringToDouble(settings.seconds);
+	tm *ltm = localtime(&now);
+	//Filename based on time stamp
+	string tmpName;
+	tmpName.clear();
+	if( ltm->tm_mday < 10 )tmpName.append("0");
+	tmpName.append( std::to_string(ltm->tm_mday) );	
+	tmpName.append( "_" );
+	if( ltm->tm_mon < 10 )tmpName.append("0");
+	tmpName.append( std::to_string( (1+ltm->tm_mon) ) );
+	tmpName.append( "_" );
+	tmpName.append( std::to_string( (1900+ltm->tm_year) ) );
+	tmpName.append( "_" );
+	if( ltm->tm_hour < 10 )tmpName.append("0");
+	tmpName.append( std::to_string( (ltm->tm_hour) ) );
+	tmpName.append( ":" );
+	if( ltm->tm_min < 10 )tmpName.append("0");
+	tmpName.append( std::to_string( (ltm->tm_min) ) );
+	tmpName.append( ":" );
+	if( ltm->tm_sec < 10 )tmpName.append("0");
+	tmpName.append( std::to_string( (ltm->tm_sec) ) );
+	//Finish
+	return tmpName;
 }
 
 string getTimeStampFilename( const structSettings& settings )
@@ -102,6 +139,7 @@ string getTimeStampFilename( const structSettings& settings )
 	if( ltm->tm_sec < 10 )tmpName.append("0");
 	tmpName.append( std::to_string( (ltm->tm_sec) ) );
 	tmpName.append( ".png" );
+	//tmpName.append( ".RGB888" );
 	//Finish
 	return tmpName;
 }
@@ -114,7 +152,7 @@ void uploadDirectory( const structSettings& settings )
 	getdir(dir,files);
 	for( unsigned int i=0; i<files.size(); i++ )
 	{
-		uploadFile( files[i], settings, false );        
+		uploadFile( files[i], settings );        
 	}
 }
 
@@ -134,7 +172,7 @@ void uploadFile( const string& fileName, const structSettings& settings, bool de
 	{		
 		if( deleteLocal == true )
 		{
-			cout << "Deleting..." << fileName << endl;
+			cout << "[UPDATED] Deleting..." << fileName << endl;
 			commandResult.clear();
 			tmpCommand.clear();
 			tmpCommand.append("rm ");
@@ -144,7 +182,7 @@ void uploadFile( const string& fileName, const structSettings& settings, bool de
 		}
 		else
 		{
-			cout << "A copy of \'" << fileName << "\' will be preserved locally" << endl;
+			cout << "[UPDATED] A copy of \'" << fileName << "\' will be preserved locally" << endl;
 		}
 	}
 	else
