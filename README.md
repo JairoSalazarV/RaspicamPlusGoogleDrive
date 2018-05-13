@@ -2,7 +2,7 @@
 
 //Set WiFi
 
-//Set User Password, Camera, SSH, Hostname
+//Set User Password, Wifi Country, Timezone, Hostname, Camera, SSH
 
 cd Documents
 
