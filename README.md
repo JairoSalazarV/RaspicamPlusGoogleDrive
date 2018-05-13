@@ -25,12 +25,15 @@ g++ Rasprive.cpp -o Rasprive
 //Get Token from https://www.dropbox.com/developers/apps
 
 //Once Dropbox-Uploader is working, check that Rasprive is working
+
 /home/pi/Documents/Rasprive/autorun.sh
  
 //Once Rasprive is working, add a deamon
+
 crontab -e 
 
 //Add line
+
 @reboot /home/pi/Documents/Rasprive/autorun.sh
 
 //Reboot and check that RASPRIVE (locally) and Dropbox.com/FOLDER is currently synchronizing
