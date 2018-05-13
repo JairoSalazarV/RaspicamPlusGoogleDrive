@@ -46,13 +46,16 @@ int main()
 		cout << "[ERROR] Reading Settings" << endl;
 		return _ERROR;
 	}
-	//cout << "Seconds " << settings.seconds << " number " << stringToDouble("93.521") << endl;
-	//cout << "localFolder " << settings.localFolder << endl;
-	//cout << "remoteFolder " << settings.remoteFolder << endl;
 	
 	//--------------------------------------
 	//Prepare Variables
 	//--------------------------------------
+	cout << "Hello Rasprive!\n\n" << endl;
+	
+	cout << "Seconds " << settings.seconds << endl;
+	cout << "localFolder " << settings.localFolder << endl;
+	cout << "remoteFolder " << settings.remoteFolder << endl;
+	
 	int seconds = (int)stringToDouble( settings.seconds );
 	string nextTime;
 	
@@ -167,6 +170,7 @@ void uploadFile( const string& fileName, const structSettings& settings, bool de
 	tmpCommand.append(fileName);
 	tmpCommand.append(" ");
 	tmpCommand.append(settings.remoteFolder);
+	cout << "tmpCommand: " << tmpCommand << endl;
 	executeConsoleCommand( tmpCommand, &commandResult );
 	if( validateDropboxAnswer( commandResult ) == _OK )
 	{		
@@ -175,7 +179,7 @@ void uploadFile( const string& fileName, const structSettings& settings, bool de
 			cout << "[UPDATED] Deleting..." << fileName << endl;
 			commandResult.clear();
 			tmpCommand.clear();
-			tmpCommand.append("rm ");
+			tmpCommand.append("rm -f ");
 			tmpCommand.append(settings.localFolder);
 			tmpCommand.append(fileName);
 			executeConsoleCommand( tmpCommand, &commandResult );
