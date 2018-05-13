@@ -170,6 +170,7 @@ void uploadFile( const string& fileName, const structSettings& settings, bool de
 	tmpCommand.append(fileName);
 	tmpCommand.append(" ");
 	tmpCommand.append(settings.remoteFolder);
+	tmpCommand.append(fileName);
 	cout << "tmpCommand: " << tmpCommand << endl;
 	executeConsoleCommand( tmpCommand, &commandResult );
 	if( validateDropboxAnswer( commandResult ) == _OK )

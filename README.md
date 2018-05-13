@@ -12,6 +12,8 @@ git clone --depth=1 https://github.com/JairoSalazarV/Rasprive
 
 cd /Rasprive/
 
+chmod a+x autorun.sh
+
 g++ Rasprive.cpp -o Rasprive
 
 //Get Token from Dropbox App and Run
