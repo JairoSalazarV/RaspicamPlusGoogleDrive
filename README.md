@@ -8,9 +8,11 @@ cd /Rasprive/
 
 g++ Rasprive.cpp -o Rasprive
 
-/home/pi/Documents/Rasprive/Dropbox-Uploader/dropbox_uploader.sh  //Get Token from Dropbox App
+//Get Token from Dropbox App and Run
+/home/pi/Documents/Rasprive/Dropbox-Uploader/dropbox_uploader.sh  
 
-crontab -e /Add line
+crontab -e 
 
+//Add line
 @reboot /home/pi/Documents/Rasprive/autorun.sh
 
