@@ -1,6 +1,12 @@
 # RaspicamPlusGoogleDrive
 
+//Set WiFi
+
+//Set User Password, Camera, SSH, Hostname
+
 cd Documents
+
+mkdir RASPRIVE
 
 git clone --depth=1 https://github.com/JairoSalazarV/Rasprive
 
