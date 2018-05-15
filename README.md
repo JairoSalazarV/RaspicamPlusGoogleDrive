@@ -8,7 +8,11 @@ cd Documents
 
 mkdir RASPRIVE
 
+cd RASPRIVE
+
 nano test.Rasprive //Agrega algo de contenido
+
+cd ..
 
 git clone --depth=1 https://github.com/JairoSalazarV/Rasprive
 
