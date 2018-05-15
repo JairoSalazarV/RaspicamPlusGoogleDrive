@@ -22,6 +22,8 @@ chmod a+x autorun.sh
 
 g++ Rasprive.cpp -o Rasprive
 
+nano remoteFolder.rasprive
+
 //Check that Dropbox-Uploader is working
 
 /home/pi/Documents/Rasprive/Dropbox-Uploader/dropbox_uploader.sh upload /home/pi/Documents/RASPRIVE/test.Rasprive /IRR_CG_0002/test.Rasprive
